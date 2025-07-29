@@ -20,9 +20,8 @@ class MainActivity : ComponentActivity() {
         setContent {
             CalorieAppTheme {
                 Scaffold( modifier = Modifier.fillMaxSize() ) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
+                    CalorieApp(
+                        modifier = Modifier.padding(innerpadding)
                     )
                 }
             }
@@ -31,17 +30,44 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
+fun CalorieApp (modifier: Modifier = Modifier) {
+    Column (
+        modifier = modifier,
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ){
+        Heading("Calories")
+        WeightField(weightInput = weightInput,onValueChange={ weightInput = it })
+    }
 }
+
 
 @Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
-    CalorieAppTheme {
-        Greeting("Android")
+fun CalorieAppPreview() {
+    CaloriesTheme {
+        CalorieApp()
     }
+}
+
+@Composable
+fun Heading(title: String) {
+    Text(
+        text = title,
+        fontSize = 24.sp,
+        textAlign = TextAlign.Center,
+        color = MaterialTheme.colorScheme.primary,
+        modifier = Modifier.fillMaxWidth().padding(top = 16.dp,bottom = 16.dp)
+    )
+}
+
+@Composable
+fun WeightField(weightInput: String, onValueChange: (String) -> Unit) {
+    OutlinedTextField(
+        value = weightInput,
+        onValueChange = onValueChange,
+        label = { Text(text="Enter Weight") },
+        singleLine = true,
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+        modifier = Modifier.fillMaxWidth()
+    )
 }
